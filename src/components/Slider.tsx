@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, Variants } from 'framer-motion';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { ISliderProps } from '../interface';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
@@ -129,7 +129,6 @@ export default function Slider({
 }: ISliderProps) {
   const movieMatch = useMatch('/');
   const tvMatch = useMatch('/tv');
-  const searchMatch = useMatch('/search');
   const [leaving, setLeaving] = useState(false);
   const offset = 6;
   const [direction, setDirection] = useState(false);

@@ -1,12 +1,6 @@
-import {
-  AnimatePresence,
-  motion,
-  useViewportScroll,
-  Variants,
-} from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { useQuery } from 'react-query';
-import { Navigate, useMatch, useNavigate } from 'react-router-dom';
+import { useMatch, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   fetchNowPlayingMovies,
@@ -18,9 +12,6 @@ import { makeImagePath } from '../utils';
 
 import Slider from '../components/Slider';
 import Overlay from '../components/Overlay';
-import { queryClient } from '..';
-import { useSetRecoilState } from 'recoil';
-import { myContents } from '../atoms';
 
 const Container = styled.div`
   width: 100%;

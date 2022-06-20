@@ -1,13 +1,12 @@
-import { motion, useViewportScroll, Variants } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
-import { FaCheck, FaPlus, FaThumbsUp, FaTimes } from 'react-icons/fa';
+import { motion, useViewportScroll } from 'framer-motion';
+import React, { useState } from 'react';
+import { FaCheck, FaPlus, FaTimes } from 'react-icons/fa';
 import { useQuery } from 'react-query';
 import {
   useLocation,
   useMatch,
   useNavigate,
   useParams,
-  useSearchParams,
 } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -185,7 +184,7 @@ function Overlay({ clickedContent }: IOverlayProps) {
   const search = new URLSearchParams(location.search);
   const [addSucceded, setAddSucceded] = useState(false);
 
-  const { data: Detail, isLoading } = useQuery<IDetail>('detail', () => {
+  const { data: Detail } = useQuery<IDetail>('detail', () => {
     return fetchDetail(
       movieMatch?.params.id ||
         tvMatch?.params.id ||

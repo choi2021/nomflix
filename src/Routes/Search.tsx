@@ -1,16 +1,7 @@
 import { AnimatePresence } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { parseMutationArgs } from 'react-query/types/core/utils';
-import {
-  useLocation,
-  useMatch,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { queryClient } from '..';
 import { fetchSearchMovies, fetchSearchTV } from '../api';
 import Overlay from '../components/Overlay';
 import Slider from '../components/Slider';
