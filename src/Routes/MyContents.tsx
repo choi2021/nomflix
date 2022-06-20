@@ -1,11 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
-import {
-  useLocation,
-  useMatch,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useMatch, useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { MovieMyContents, myContents, tvMyContents } from '../atoms';
 import Overlay from '../components/Overlay';
@@ -31,11 +26,7 @@ const Loader = styled.div`
   font-size: 3rem;
 `;
 
-const Sliders = styled.ul`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
+const Sliders = styled.ul``;
 
 export default function MyContents() {
   const navigate = useNavigate();
