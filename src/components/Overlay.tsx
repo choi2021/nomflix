@@ -1,5 +1,5 @@
 import { motion, useViewportScroll } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCheck, FaPlus, FaTimes } from 'react-icons/fa';
 import { useQuery } from 'react-query';
 import {
@@ -8,10 +8,10 @@ import {
   useNavigate,
   useParams,
 } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { fetchDetail } from '../api';
-import { myContents } from '../atoms';
+import { myContentsAtom } from '../atoms';
 import { IDetail, IOverlayProps } from '../interface';
 import { makeImagePath } from '../utils';
 
@@ -172,7 +172,7 @@ const BtnContainer = styled(motion.div)`
 `;
 
 function Overlay({ clickedContent }: IOverlayProps) {
-  const setMyContents = useSetRecoilState(myContents);
+  const [myContents, setMyContents] = useRecoilState(myContentsAtom);
   const movieMatch = useMatch('/movie/:id');
   const tvMatch = useMatch('/tv/:id');
   const myTVMatch = useMatch('/my_contents/tv/:id');
@@ -222,6 +222,17 @@ function Overlay({ clickedContent }: IOverlayProps) {
     setAddSucceded((prev) => true);
   };
 
+  useEffect(() => {
+    if (Detail) {
+      if (
+        myContents.movies.find((movie) => movie.id === Detail.id) ||
+        myContents.tv.find((tv) => tv.id === Detail.id)
+      ) {
+        setAddSucceded(true);
+      }
+    }
+  }, [myContents, Detail]);
+
   return (
     <Container>
       <Wrapper
@@ -264,7 +275,7 @@ function Overlay({ clickedContent }: IOverlayProps) {
                         <Bigbtn layoutId='btn'>
                           <FaCheck />
                         </Bigbtn>
-                        <span>이미 찜되어 있어요😁</span>
+                        <span>찜되었어요😁</span>
                       </>
                     )}
                   </BtnContainer>

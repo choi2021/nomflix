@@ -2,14 +2,14 @@ import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { ThemeProvider } from 'styled-components';
 import './App.css';
-import { myContents } from './atoms';
+import { myContentsAtom } from './atoms';
 
 import { Reset } from './reset';
 import Router from './Router';
 import { Theme } from './theme';
 
 function App() {
-  const setMyContents = useSetRecoilState(myContents);
+  const setMyContents = useSetRecoilState(myContentsAtom);
   useEffect(() => {
     setMyContents((prev) => {
       const strPrevContents = localStorage.getItem('my_contents');
@@ -20,7 +20,7 @@ function App() {
         return myContents;
       }
     });
-  }, []);
+  }, [setMyContents]);
   return (
     <>
       <ThemeProvider theme={Theme}>

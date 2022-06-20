@@ -6,7 +6,7 @@ interface IMyContent {
   tv: IContent[];
 }
 
-export const myContents = atom<IMyContent>({
+export const myContentsAtom = atom<IMyContent>({
   key: 'selected',
   default: {
     movies: [],
@@ -17,14 +17,14 @@ export const myContents = atom<IMyContent>({
 export const MovieMyContents = selector({
   key: 'movie',
   get: ({ get }) => {
-    const contents = get(myContents);
+    const contents = get(myContentsAtom);
     return contents.movies;
   },
 });
 export const tvMyContents = selector({
   key: 'tv',
   get: ({ get }) => {
-    const contents = get(myContents);
+    const contents = get(myContentsAtom);
     return contents.tv;
   },
 });

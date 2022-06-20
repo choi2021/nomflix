@@ -2,7 +2,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { MovieMyContents, myContents, tvMyContents } from '../atoms';
+import { MovieMyContents, tvMyContents } from '../atoms';
 import Overlay from '../components/Overlay';
 import Slider from '../components/Slider';
 
@@ -16,14 +16,6 @@ const Container = styled.div`
 const Wrapper = styled.div`
   position: relative;
   top: 5em;
-`;
-
-const Loader = styled.div`
-  height: 20vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 3rem;
 `;
 
 const Sliders = styled.ul``;
