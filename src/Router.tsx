@@ -12,11 +12,12 @@ export default function Router() {
       <Header></Header>
       <Routes>
         <Route path='/' element={<Home />}></Route>
-        <Route path='/movies' element={<Home />}></Route>
-        <Route path='/movies/:id' element={<Home />}></Route>
+        <Route path='/movie' element={<Home />}></Route>
+        <Route path='/movie/:id' element={<Home />}></Route>
         <Route path='/tv' element={<TV></TV>}></Route>
         <Route path='/tv/:id' element={<TV></TV>}></Route>
         <Route path='/search/*' element={<Search></Search>}></Route>
+        <Route path='/search/:type' element={<Search></Search>}></Route>
         <Route
           path='/my_contents/*'
           element={<MyContents></MyContents>}

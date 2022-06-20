@@ -161,8 +161,6 @@ export default function Slider({
       return !prev;
     });
 
-  console.log(contents);
-
   return (
     <Container started={started} search={Boolean(infoObj)}>
       <Title started={started}>
@@ -210,7 +208,7 @@ export default function Slider({
                       if (tvMatch) {
                         setClickedContent('tv', content.id);
                       } else if (movieMatch) {
-                        setClickedContent('movies', content.id);
+                        setClickedContent('movie', content.id);
                       } else if (infoObj) {
                         setClickedContent(infoObj.type, content.id);
                       }
@@ -219,7 +217,6 @@ export default function Slider({
                     key={content.id}
                     initial='normal'
                     whileHover='hover'
-                    layoutId={content.id + ''}
                     transition={{
                       delay: 0.3,
                       type: 'tween',

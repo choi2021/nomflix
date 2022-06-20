@@ -1,6 +1,6 @@
 import { motion, useViewportScroll, Variants } from 'framer-motion';
-import React, { useEffect } from 'react';
-import { FaPlus, FaThumbsUp, FaTimes } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaCheck, FaPlus, FaThumbsUp, FaTimes } from 'react-icons/fa';
 import { useQuery } from 'react-query';
 import {
   useLocation,
@@ -59,7 +59,7 @@ const BigCover = styled.div`
 const BigBtns = styled.div`
   position: absolute;
   bottom: 2em;
-  right: 0.5em;
+  right: 2em;
   display: flex;
 `;
 const Bigbtn = styled(motion.button)`
@@ -163,21 +163,27 @@ const RightInfo = styled.div`
 `;
 
 const BtnContainer = styled(motion.div)`
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   span {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
   }
 `;
 
 function Overlay({ clickedContent }: IOverlayProps) {
   const setMyContents = useSetRecoilState(myContents);
-  const movieMatch = useMatch('/movies/:id');
+  const movieMatch = useMatch('/movie/:id');
   const tvMatch = useMatch('/tv/:id');
   const myTVMatch = useMatch('/my_contents/tv/:id');
   const myMovieMatch = useMatch('/my_contents/movie/:id');
   const location = useLocation();
   const onTV = tvMatch || myTVMatch;
   const onMovie = movieMatch || myMovieMatch;
+  const { type } = useParams();
   const search = new URLSearchParams(location.search);
+  const [addSucceded, setAddSucceded] = useState(false);
 
   const { data: Detail, isLoading } = useQuery<IDetail>('detail', () => {
     return fetchDetail(
@@ -186,7 +192,7 @@ function Overlay({ clickedContent }: IOverlayProps) {
         search.get('id') ||
         myMovieMatch?.params.id ||
         myTVMatch?.params.id!,
-      onTV ? 'tv' : onMovie ? 'movie' : ''
+      onTV ? 'tv' : onMovie ? 'movie' : type!
     );
   });
 
@@ -197,7 +203,7 @@ function Overlay({ clickedContent }: IOverlayProps) {
     tvMatch && navigate('/tv');
     search.get('keyword') &&
       navigate(`/search?keyword=${search.get('keyword')}`);
-    myTVMatch || (myMovieMatch && navigate('/my_contents'));
+    (myTVMatch || myMovieMatch) && navigate('/my_contents');
   };
   const addMyContent = () => {
     setMyContents((prev) => {
@@ -214,6 +220,7 @@ function Overlay({ clickedContent }: IOverlayProps) {
       }
       return { ...prev };
     });
+    setAddSucceded((prev) => true);
   };
 
   return (
@@ -243,13 +250,24 @@ function Overlay({ clickedContent }: IOverlayProps) {
                 </CloseBtn>
                 <BigBtns>
                   <BtnContainer
-                    whileHover={{ scale: 1.3 }}
+                    whileHover={{ scale: 1.1 }}
                     onClick={addMyContent}
                   >
-                    <Bigbtn>
-                      <FaPlus />
-                    </Bigbtn>
-                    <span>찜하기</span>
+                    {!addSucceded ? (
+                      <>
+                        <Bigbtn layoutId='btn'>
+                          <FaPlus />
+                        </Bigbtn>
+                        <span>찜하기</span>
+                      </>
+                    ) : (
+                      <>
+                        <Bigbtn layoutId='btn'>
+                          <FaCheck />
+                        </Bigbtn>
+                        <span>이미 찜되어 있어요😁</span>
+                      </>
+                    )}
                   </BtnContainer>
                 </BigBtns>
               </BigImg>

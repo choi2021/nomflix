@@ -62,7 +62,7 @@ const Sliders = styled.ul``;
 
 export default function Home() {
   const navigate = useNavigate();
-  const movieMatch = useMatch('/movies/:id');
+  const movieMatch = useMatch('/movie/:id');
 
   const { data: nowPlaying, isLoading: nowPlayingLoading } =
     useQuery<IContents>(['movies', 'nowPlaying'], fetchNowPlayingMovies);

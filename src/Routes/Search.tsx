@@ -94,7 +94,7 @@ export default function Search() {
                 infoObj={{
                   keyword: search.get('keyword') || '',
                   title: '관련된 영화',
-                  type: 'movies',
+                  type: 'movie',
                 }}
                 setClickedContent={onBoxClicked}
               ></Slider>
