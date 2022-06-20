@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { FaPlus, FaThumbsUp, FaTimes } from 'react-icons/fa';
 import { useQuery } from 'react-query';
 import {
+  useLocation,
   useMatch,
   useNavigate,
   useParams,
@@ -162,10 +163,12 @@ const RightInfo = styled.div`
 function Overlay({ clickedContent }: IOverlayProps) {
   const movieMatch = useMatch('/movies/:id');
   const tvMatch = useMatch('/tv/:id');
-  const searchMatch = useMatch('/search/:id');
+  const location = useLocation();
+  const search = new URLSearchParams(location.search);
+
   const { data: Detail, isLoading } = useQuery<IDetail>('detail', () => {
     return fetchDetail(
-      movieMatch?.params.id || tvMatch?.params.id || searchMatch?.params.id!,
+      movieMatch?.params.id || tvMatch?.params.id || search.get('id')!,
       movieMatch ? 'movie' : 'tv'
     );
   });
@@ -173,7 +176,10 @@ function Overlay({ clickedContent }: IOverlayProps) {
   const navigate = useNavigate();
   const { scrollY } = useViewportScroll();
   const onOverlayClick = () => {
-    navigate(-1);
+    movieMatch && navigate('/');
+    tvMatch && navigate('/tv');
+    search.get('keyword') &&
+      navigate(`/search?keyword=${search.get('keyword')}`);
   };
 
   return (
@@ -240,7 +246,8 @@ function Overlay({ clickedContent }: IOverlayProps) {
                 <InfoItem>
                   <Genres>
                     <Subtitle>장르: </Subtitle>
-                    {Detail?.genres.map((item) => item.name).join(',\n')}
+                    {Detail?.genres &&
+                      Detail?.genres.map((item) => item.name).join(',\n')}
                   </Genres>
                 </InfoItem>
                 {tvMatch && (

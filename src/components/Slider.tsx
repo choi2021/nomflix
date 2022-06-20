@@ -156,7 +156,6 @@ export default function Slider({
       }
     }
   };
-  console.log(searchMatch);
   const toggleLeaving = () =>
     setLeaving((prev) => {
       return !prev;
@@ -202,7 +201,6 @@ export default function Slider({
                 .map((content) => (
                   <Box
                     onClick={() => {
-                      console.log(content.id + '');
                       if (tvMatch) {
                         setClickedContent('tv', content.id);
                       } else if (movieMatch) {

@@ -17,15 +17,13 @@ import Slider from '../components/Slider';
 import { ISearch } from '../interface';
 
 const Container = styled.div`
+  overflow: hidden;
   width: 100%;
-  height: 150vh;
+  height: 200vh;
   background-color: ${(props) => props.theme.black.darker};
 `;
 
-const Wrapper = styled.div`
-  position: relative;
-  top: 5rem;
-`;
+const Wrapper = styled.div``;
 
 const Loader = styled.div`
   height: 20vh;
@@ -37,7 +35,7 @@ const Loader = styled.div`
 
 const Title = styled.h2`
   font-size: 2rem;
-  padding-top: 1em;
+  padding-top: 3em;
   margin-bottom: 1em;
   text-align: center;
   span {
@@ -52,34 +50,33 @@ const Sliders = styled.ul`
 `;
 
 export default function Search() {
-  const movieMatch = useMatch('/search/movie/:id');
-  const tvMatch = useMatch('/search/tv/:id');
   const navigate = useNavigate();
   const location = useLocation();
   const search = new URLSearchParams(location.search);
-
+  const keyword = search.get('keyword');
   const { data: movies, isLoading: movieLoading } = useQuery<ISearch>(
-    ['search', 'movies', search.get('keyword')],
-    () =>
-      fetchSearchMovies(` ${search.get('keyword') && search.get('keyword')}`)
+    ['search', 'movies', keyword],
+    () => fetchSearchMovies(` ${keyword && keyword}`)
   );
   const { data: tv, isLoading: tvLoading } = useQuery<ISearch>(
-    ['search', 'tv', search.get('keyword')],
-    () => fetchSearchTV(` ${search.get('keyword') && search.get('keyword')}`)
+    ['search', 'tv', keyword],
+    () => fetchSearchTV(` ${keyword && keyword}`)
   );
 
   const onBoxClicked = (kind: string, contentId: number) => {
-    navigate(`/search/${kind}/${contentId}`);
+    navigate(`/search/${kind}/?keyword=${keyword}&id=${contentId}`);
   };
+
   const isLoading = movieLoading || tvLoading;
 
   const clickedContent =
-    (movieMatch &&
+    (search.get('id') &&
       movies?.results.find(
-        (content) => content.id + '' === movieMatch?.params.id
+        (content) => content.id + '' === search.get('id')
       )) ||
-    (tvMatch &&
-      tv?.results.find((content) => content.id + '' === tvMatch?.params.id));
+    tv?.results.find((content) => content.id + '' === search.get('id'));
+
+  console.log(search.get('id'));
 
   return (
     <Container>
@@ -115,8 +112,9 @@ export default function Search() {
             )}
           </Sliders>
           <AnimatePresence>
-            {movieMatch && <Overlay clickedContent={clickedContent!}></Overlay>}
-            {tvMatch && <Overlay clickedContent={clickedContent!}></Overlay>}
+            {search.get('id') && (
+              <Overlay clickedContent={clickedContent!}></Overlay>
+            )}
           </AnimatePresence>
         </Wrapper>
       )}

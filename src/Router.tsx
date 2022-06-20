@@ -15,9 +15,7 @@ export default function Router() {
         <Route path='/movies/:id' element={<Home />}></Route>
         <Route path='/tv' element={<TV></TV>}></Route>
         <Route path='/tv/:id' element={<TV></TV>}></Route>
-        <Route path='/search' element={<Search></Search>}></Route>
-        <Route path='/search/movies/:id' element={<Search></Search>}></Route>
-        <Route path='/search/tv/:id' element={<Search></Search>}></Route>
+        <Route path='/search/*' element={<Search></Search>}></Route>
       </Routes>
     </>
   );
