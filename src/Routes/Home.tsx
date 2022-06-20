@@ -92,6 +92,7 @@ export default function Home() {
 
   return (
     <Container>
+      <Helmet></Helmet>
       {isLoading ? (
         <Loader>Loading</Loader>
       ) : (
