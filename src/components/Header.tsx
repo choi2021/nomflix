@@ -167,6 +167,12 @@ export default function Header() {
 
             {TVMatch && <Circle layoutId='circle' />}
           </Item>
+          <Item>
+            <Link to='/my_contents'>
+              <span>My Contents</span>
+            </Link>
+            {homeMatch && <Circle layoutId='circle' />}
+          </Item>
         </Items>
       </Column>
       <Column>
