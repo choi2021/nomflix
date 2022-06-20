@@ -125,7 +125,7 @@ export default function Slider({
   contents,
   title,
   setClickedContent,
-  searchObj,
+  infoObj,
 }: ISliderProps) {
   const movieMatch = useMatch('/');
   const tvMatch = useMatch('/tv');
@@ -161,13 +161,15 @@ export default function Slider({
       return !prev;
     });
 
+  console.log(contents);
+
   return (
-    <Container started={started} search={Boolean(searchObj)}>
+    <Container started={started} search={Boolean(infoObj)}>
       <Title started={started}>
-        {searchObj && (
+        {infoObj && (
           <>
-            <Keyword>{searchObj?.keyword} </Keyword>
-            <span>{searchObj?.title}</span>
+            <Keyword>{infoObj?.keyword} </Keyword>
+            <span>{infoObj?.title}</span>
           </>
         )}
         <span>{title}</span>
@@ -196,7 +198,11 @@ export default function Slider({
               key={page}
             >
               {contents
-                .slice(1)
+                .filter(
+                  (content) =>
+                    content.backdrop_path !== null ||
+                    content.poster_path !== null
+                )
                 .slice(page * offset, page * offset + offset)
                 .map((content) => (
                   <Box
@@ -205,8 +211,8 @@ export default function Slider({
                         setClickedContent('tv', content.id);
                       } else if (movieMatch) {
                         setClickedContent('movies', content.id);
-                      } else if (searchObj) {
-                        setClickedContent(searchObj.type, content.id);
+                      } else if (infoObj) {
+                        setClickedContent(infoObj.type, content.id);
                       }
                     }}
                     variants={BoxVariants}

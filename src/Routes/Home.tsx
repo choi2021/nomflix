@@ -19,6 +19,8 @@ import { makeImagePath } from '../utils';
 import Slider from '../components/Slider';
 import Overlay from '../components/Overlay';
 import { queryClient } from '..';
+import { useSetRecoilState } from 'recoil';
+import { myContents } from '../atoms';
 
 const Container = styled.div`
   width: 100%;
@@ -61,6 +63,7 @@ const Sliders = styled.ul``;
 export default function Home() {
   const navigate = useNavigate();
   const movieMatch = useMatch('/movies/:id');
+
   const { data: nowPlaying, isLoading: nowPlayingLoading } =
     useQuery<IContents>(['movies', 'nowPlaying'], fetchNowPlayingMovies);
 

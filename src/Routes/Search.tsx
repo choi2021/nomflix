@@ -91,7 +91,7 @@ export default function Search() {
             {movies && (
               <Slider
                 contents={movies.results}
-                searchObj={{
+                infoObj={{
                   keyword: search.get('keyword') || '',
                   title: '관련된 영화',
                   type: 'movies',
@@ -102,7 +102,7 @@ export default function Search() {
             {tv && (
               <Slider
                 contents={tv.results}
-                searchObj={{
+                infoObj={{
                   keyword: search.get('keyword') || '',
                   title: '관련된 TV 시리즈',
                   type: 'tv',

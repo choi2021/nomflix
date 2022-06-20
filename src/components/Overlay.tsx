@@ -9,8 +9,10 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { fetchDetail } from '../api';
+import { myContents } from '../atoms';
 import { IDetail, IOverlayProps } from '../interface';
 import { makeImagePath } from '../utils';
 
@@ -160,16 +162,31 @@ const RightInfo = styled.div`
   }
 `;
 
+const BtnContainer = styled(motion.div)`
+  span {
+    font-size: 0.7rem;
+  }
+`;
+
 function Overlay({ clickedContent }: IOverlayProps) {
+  const setMyContents = useSetRecoilState(myContents);
   const movieMatch = useMatch('/movies/:id');
   const tvMatch = useMatch('/tv/:id');
+  const myTVMatch = useMatch('/my_contents/tv/:id');
+  const myMovieMatch = useMatch('/my_contents/movie/:id');
   const location = useLocation();
+  const onTV = tvMatch || myTVMatch;
+  const onMovie = movieMatch || myMovieMatch;
   const search = new URLSearchParams(location.search);
 
   const { data: Detail, isLoading } = useQuery<IDetail>('detail', () => {
     return fetchDetail(
-      movieMatch?.params.id || tvMatch?.params.id || search.get('id')!,
-      movieMatch ? 'movie' : 'tv'
+      movieMatch?.params.id ||
+        tvMatch?.params.id ||
+        search.get('id') ||
+        myMovieMatch?.params.id ||
+        myTVMatch?.params.id!,
+      onTV ? 'tv' : onMovie ? 'movie' : ''
     );
   });
 
@@ -180,6 +197,23 @@ function Overlay({ clickedContent }: IOverlayProps) {
     tvMatch && navigate('/tv');
     search.get('keyword') &&
       navigate(`/search?keyword=${search.get('keyword')}`);
+    myTVMatch || (myMovieMatch && navigate('/my_contents'));
+  };
+  const addMyContent = () => {
+    setMyContents((prev) => {
+      if (Detail) {
+        const type = onTV ? 'tv' : 'movies';
+        if (prev[type].includes(Detail)) {
+          return { ...prev };
+        }
+        const targetArr = [...prev[type], Detail];
+        const newMyContents = { ...prev, [type]: targetArr };
+        const strMyContents = JSON.stringify(newMyContents);
+        localStorage.setItem('my_contents', strMyContents);
+        return newMyContents || { ...prev };
+      }
+      return { ...prev };
+    });
   };
 
   return (
@@ -207,15 +241,17 @@ function Overlay({ clickedContent }: IOverlayProps) {
                 <CloseBtn whileHover={{ scale: 1.2 }} onClick={onOverlayClick}>
                   <FaTimes />
                 </CloseBtn>
-                {/* <BigBtns>
-                  <Bigbtn>
-                    <FaPlus />
-                  </Bigbtn>
-                  <Bigbtn>
-                    <FaThumbsUp />
-                  </Bigbtn>
-                  <Bigbtn></Bigbtn>
-                </BigBtns> */}
+                <BigBtns>
+                  <BtnContainer
+                    whileHover={{ scale: 1.3 }}
+                    onClick={addMyContent}
+                  >
+                    <Bigbtn>
+                      <FaPlus />
+                    </Bigbtn>
+                    <span>찜하기</span>
+                  </BtnContainer>
+                </BigBtns>
               </BigImg>
             </BigCover>
             <BigInfo>

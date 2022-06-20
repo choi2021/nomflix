@@ -116,6 +116,7 @@ export default function Header() {
   const { register, handleSubmit, setValue } = useForm<IForm>();
   const homeMatch = useMatch('/');
   const TVMatch = useMatch('/tv');
+  const myMatch = useMatch('/my_contents');
   const [headerPos, setHeaderPos] = useState('top');
   const [searchOpen, setSearchOpen] = useState(false);
   const { scrollY } = useViewportScroll();
@@ -137,6 +138,8 @@ export default function Header() {
       }
     });
   }, [scrollY]);
+
+  console.log(myMatch);
 
   return (
     <Nav variants={navVariant} animate={headerPos}>
@@ -171,7 +174,7 @@ export default function Header() {
             <Link to='/my_contents'>
               <span>My Contents</span>
             </Link>
-            {homeMatch && <Circle layoutId='circle' />}
+            {myMatch && <Circle layoutId='circle' />}
           </Item>
         </Items>
       </Column>

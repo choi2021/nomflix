@@ -3,7 +3,7 @@ export interface IContent {
   adult?: boolean;
   overview: string;
   release_date?: string;
-  genre_ids: number[];
+  genre_ids?: number[];
   id: number;
   original_title?: string;
   original_language: string;
@@ -35,7 +35,7 @@ export interface IForm {
 export interface ISliderProps {
   contents: IContent[];
   title?: string;
-  searchObj?: {
+  infoObj?: {
     keyword: string;
     title: string;
     type: string;
