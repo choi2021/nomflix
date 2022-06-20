@@ -37,16 +37,23 @@ const Banner = styled.div<{ bg: string }>`
   justify-content: center;
   align-items: flex-start;
   padding: 0 3rem;
+  position: relative;
+`;
+
+const BannerInfo = styled.div`
+  position: absolute;
+  bottom: 10rem;
 `;
 
 const Title = styled.h2`
-  font-size: 2.8rem;
+  font-size: 2rem;
   margin-bottom: 1em;
 `;
 
 const Overview = styled.p`
-  font-size: 1rem;
-  width: 70%;
+  font-size: 0.9rem;
+  line-height: 150%;
+  width: 50%;
 `;
 
 const Sliders = styled.ul``;
@@ -93,8 +100,10 @@ export default function Home() {
           <Banner
             bg={makeImagePath(nowPlaying?.results[0].backdrop_path || '')}
           >
-            <Title>{nowPlaying?.results[0].title}</Title>
-            <Overview>{nowPlaying?.results[0].overview}</Overview>
+            <BannerInfo>
+              <Title>{nowPlaying?.results[0].title}</Title>
+              <Overview>{nowPlaying?.results[0].overview}</Overview>
+            </BannerInfo>
           </Banner>
           <Sliders>
             <Slider

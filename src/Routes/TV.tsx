@@ -4,7 +4,6 @@ import { useQuery } from 'react-query';
 import { useMatch, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
-  fetchLatestShows,
   fetchPopularShows,
   fetchTopRatedShows,
   fetchUpcomingAiringTodayShows,
@@ -98,7 +97,7 @@ export default function TV() {
             ></Slider>
             <Slider
               setClickedContent={onBoxClicked}
-              title={'오늘 상영예정인 TV시리즈'}
+              title={'방영중인 TV시리즈'}
               contents={airingToday?.results!}
             ></Slider>
             <Slider

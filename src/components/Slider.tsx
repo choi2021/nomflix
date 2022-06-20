@@ -29,7 +29,7 @@ const Container = styled.div<{ started: boolean; search: boolean }>`
   top: ${(props) => (props.search ? '3em' : '-100px')};
   width: 100%;
   height: 20rem;
-  margin-bottom: 5em;
+  margin-bottom: 8em;
   ${ArrowBtn}:first-child {
     left: 0;
   }
